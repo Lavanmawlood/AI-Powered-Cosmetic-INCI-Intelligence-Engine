@@ -2,15 +2,16 @@
 import sys
 from pathlib import Path
 
-# Make project root importable
+# Project root
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-
-from app.normalization.inci_parser import INCIParser
-from app.normalization.inci_parser import INCINormalizer
+from app.normalization.inci_parser import (
+    INCIParser,
+    INCINormalizer
+)
 
 
 def test_parse_basic_inci():
@@ -28,7 +29,7 @@ def test_parse_basic_inci():
     ]
 
 
-def test_parse_removes_extra_spaces():
+def test_parse_extra_spaces():
 
     parser = INCIParser()
 
@@ -43,7 +44,7 @@ def test_parse_removes_extra_spaces():
     ]
 
 
-def test_parse_preserves_order():
+def test_preserve_order():
 
     parser = INCIParser()
 
@@ -56,36 +57,32 @@ def test_parse_preserves_order():
     assert result[2] == "Panthenol"
 
 
-def test_empty_inci_returns_empty_list():
+def test_empty_inci():
 
     parser = INCIParser()
 
-    result = parser.parse("")
-
-    assert result == []
+    assert parser.parse("") == []
 
 
-def test_whitespace_only_returns_empty_list():
+def test_whitespace_only():
 
     parser = INCIParser()
 
-    result = parser.parse("     ")
-
-    assert result == []
+    assert parser.parse("     ") == []
 
 
-def test_invalid_input_raises_error():
+def test_invalid_input():
 
     parser = INCIParser()
 
     try:
         parser.parse(None)
-        assert False, "Expected TypeError"
+        assert False
     except TypeError:
         assert True
 
 
-def test_normalizer_removes_extra_whitespace():
+def test_normalizer():
 
     normalizer = INCINormalizer()
 
@@ -104,7 +101,7 @@ def test_normalizer_removes_extra_whitespace():
     ]
 
 
-def test_normalizer_ignores_empty_values():
+def test_normalizer_empty_values():
 
     normalizer = INCINormalizer()
 
