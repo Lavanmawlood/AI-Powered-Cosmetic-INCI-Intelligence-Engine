@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+streamlit
+pydantic
+pydantic-settings
+sqlalchemy
+psycopg2-binary
+supabase
+pandas
+numpy
+httpx
+beautifulsoup4
+lxml
+python-dotenv
+pytest
+pytest-asyncio
