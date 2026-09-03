@@ -1,40 +1,55 @@
 # LAV LAB
-
 ## AI-Powered Cosmetic & INCI Intelligence Engine
 
-LAV LAB is an intelligent cosmetic formulation and INCI analysis platform.
+LAV LAB is a production-oriented data and AI platform for cosmetic
+ingredient intelligence, INCI analysis, formula screening, and
+evidence-aware cosmetic formulation recommendations.
 
-### Core Capabilities
+## Project Vision
 
-- Cosmetic product data collection
-- INCI normalization and parsing
-- Ingredient knowledge analysis
-- Scientific rule engine
-- Formula recommendation
-- Formula validation
-- AI-assisted formulation intelligence
-- Product analytics
+The goal of LAV LAB is to build a structured intelligence system that
+can transform cosmetic product and ingredient data into useful,
+auditable insights.
 
-### Architecture
+## Core Architecture
 
-Scraper
-    ↓
-Normalizer / Parser
-    ↓
-Database
-    ↓
-INCI Knowledge Engine
-    ↓
-Scientific Rule Engine
-    ↓
-Formula Recommendation Engine
-    ↓
-AI Layer
-    ↓
-FastAPI
-    ↓
-Streamlit Dashboard
+1. Scraper & Normalizer
+2. Database
+3. INCI Knowledge Engine
+4. Formula Recommendation Engine
+5. AI Layer
+6. Streamlit Dashboard
 
-### Status
+## Project Structure
 
-Project foundation — Version 0.1
+```text
+lav-lab/
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── database/
+│   ├── scraper/
+│   ├── normalization/
+│   ├── knowledge/
+│   ├── formulation/
+│   ├── ai/
+│   └── analytics/
+├── dashboard/
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── reference/
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   ├── api/
+│   └── fixtures/
+├── migrations/
+├── scripts/
+├── notebooks/
+├── docs/
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
+
