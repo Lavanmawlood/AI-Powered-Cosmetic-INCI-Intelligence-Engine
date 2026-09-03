@@ -14,13 +14,16 @@ from .exceptions import (
     InvalidResponseError,
 )
 from .models import FetchResult
-
+from .policy import (
+    ComplianceChecker,
+    PolicyViolationError,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class HTTPFetcher:
-    """Safe HTTP fetcher with timeout, retry and rate limiting."""
+    """Safe HTTP fetcher with compliance, retry and rate limiting."""
 
     RETRYABLE_STATUS_CODES = {
         408, 425, 429, 500, 502, 503, 504
@@ -42,6 +45,10 @@ class HTTPFetcher:
             ),
         })
 
+        self.compliance = ComplianceChecker(
+            user_agent=self.config.user_agent
+        )
+
         self._last_request_time = 0.0
 
     def _rate_limit(self) -> None:
@@ -54,12 +61,18 @@ class HTTPFetcher:
             time.sleep(remaining)
 
     def fetch(self, url: str) -> FetchResult:
-        """Fetch a URL with validation, retries and timeout."""
+        """Fetch a URL after compliance validation."""
 
-        if not url.startswith(("http://", "https://")):
-            raise InvalidResponseError(
-                f"Invalid URL: {url!r}"
+        try:
+            self.compliance.check(url)
+        except PolicyViolationError as exc:
+            logger.warning(
+                "Request blocked by scraping policy: %s",
+                url,
             )
+            raise FetchError(
+                f"Scraping policy blocked URL: {url}"
+            ) from exc
 
         last_error = None
 
@@ -141,10 +154,12 @@ class HTTPFetcher:
                         self.config.backoff_factor
                         * (2 ** (attempt - 1))
                     )
+
                     logger.warning(
                         "Timeout. Retrying in %.2fs.",
                         delay,
                     )
+
                     time.sleep(delay)
                     continue
 
@@ -160,10 +175,12 @@ class HTTPFetcher:
                         self.config.backoff_factor
                         * (2 ** (attempt - 1))
                     )
+
                     logger.warning(
                         "Request error. Retrying in %.2fs.",
                         delay,
                     )
+
                     time.sleep(delay)
                     continue
 
