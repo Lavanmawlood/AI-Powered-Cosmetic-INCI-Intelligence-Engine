@@ -1,36 +1,9 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-
-# Virtual environments
-.venv/
-venv/
-env/
-
-# Environment variables
-.env
-
-# Jupyter
-.ipynb_checkpoints/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Data
 data/raw/*
 data/processed/*
-
-# Secrets
-*.pem
-*.key
+!data/processed/example_product.json
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.token
