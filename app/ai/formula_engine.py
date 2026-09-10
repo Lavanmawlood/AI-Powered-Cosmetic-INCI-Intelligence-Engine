@@ -91,24 +91,3 @@ class FormulaEngine:
 if __name__ == "__main__":
     engine = FormulaEngine()
     print("Loaded " + str(len(engine.products)) + " products into engine.")
-    print("")
-
-    first_product = engine.products[0]
-    test_slug = first_product["url"].split("/")[-1]
-    test_name = first_product["name"]
-    print("Finding products similar to: " + test_name)
-    result = engine.find_similar(test_slug, top_n=5)
-    print(json.dumps(result, indent=2, ensure_ascii=False))
-
-    print("")
-    print("Scanning all products for known ingredient conflicts...")
-    conflict_count = 0
-    for p in engine.products:
-        slug = p["url"].split("/")[-1]
-        res = engine.check_conflicts(slug)
-        if res.get("conflicts_found", 0) > 0:
-            conflict_count += 1
-            print("  - " + p["name"] + ": " + str(res["conflicts_found"]) + " conflict(s)")
-
-    print("")
-    print("Total products with flagged conflicts: " + str(conflict_count) + "/" + str(len(engine.products)))
